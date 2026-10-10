@@ -1,4 +1,4 @@
 User-agent: *
-Disallow: /roam-internet-guides/r/
+Disallow: /r/
 Allow: /
-Sitemap: https://sidlakkoju.github.io/roam-internet-guides/sitemap-index.xml
+Sitemap: https://roaminternetguides.com/sitemap-index.xml
