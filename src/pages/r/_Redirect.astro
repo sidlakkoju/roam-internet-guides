@@ -4,8 +4,13 @@ import { REFERRAL_URL } from '../../lib/site';
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8" />
 <meta name="robots" content="noindex" />
-<meta http-equiv="refresh" content={`0; url=${REFERRAL_URL}`} />
+<meta http-equiv="refresh" content={`1; url=${REFERRAL_URL}`} />
 <link rel="canonical" href={REFERRAL_URL} />
 <title>Redirecting…</title>
-<script is:inline define:vars={{ u: REFERRAL_URL }}>location.replace(u);</script>
+<script is:inline define:vars={{ u: REFERRAL_URL, ch: Astro.props.channel }}>
+  var done=false;function go(){if(!done){done=true;location.replace(u);}}
+  try{var p='redir/'+ch,q='https://roaminternet.goatcounter.com/count?e=true&p='+encodeURIComponent(p)+'&t='+encodeURIComponent(p)+'&r='+encodeURIComponent(document.referrer)+'&rnd='+Math.random().toString(36).slice(2);
+    var i=new Image();i.onload=i.onerror=go;i.src=q;}catch(e){}
+  setTimeout(go,300);
+</script>
 </head><body><p>Redirecting to <a href={REFERRAL_URL}>the referral link</a>…</p></body></html>
