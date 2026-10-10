@@ -13,6 +13,7 @@ const qr = await QRCode.toString(REFERRAL_URL, { type: 'svg', margin: 1, width: 
   </div>
   <code class="ref-url">{REFERRAL_URL}</code>
   <details><summary>Show QR code (scan on your phone)</summary><div class="qr" set:html={qr} /></details>
+  <p class="disclosure"><strong>Disclosure:</strong> I work at SpaceX and get a referral reward if you use my link.</p>
   <ul class="ref-rules">
     <li>Order on starlink.com <strong>in the same browser tab that opened the link</strong>.</li>
     <li>Look for <strong>“Referral Code Applied”</strong> at checkout before paying.</li>
