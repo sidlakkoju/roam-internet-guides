@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import ReferralBox from '../components/ReferralBox.astro';
+const faq = [
+  { q: 'How does the referral link work?', a: 'Open the link, order on starlink.com in that same browser tab, and confirm “Referral Code Applied” at checkout. After about two billing cycles of active service, you and the referrer each receive a $100 credit.' },
+];
+---
+<Base title="Satellite Internet Referral FAQ: $100 Credit, Checkout & Timing" description="Answers about the satellite internet referral credit: how to apply it, when it pays, and what doesn't qualify." faq={faq}>
+  <h1>Frequently asked questions</h1>
+  <ReferralBox />
+  {faq.map((f) => <><h2>{f.q}</h2><p>{f.a}</p></>)}
+</Base>

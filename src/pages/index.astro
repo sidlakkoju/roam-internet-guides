@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import ReferralBox from '../components/ReferralBox.astro';
+import { url } from '../lib/site';
+---
+<Base title="Satellite Internet Guides for RVs, Boats & Rural Homes" description="Practical guides to satellite internet for RVs, boats, portable setups and rural homes, plus a $100 referral link.">
+  <h1>Satellite internet guides for life off the grid</h1>
+  <ReferralBox />
+  <ul>
+    <li><a href={url('/guides/rv/')}>Satellite internet for RVs</a></li>
+    <li><a href={url('/guides/boat/')}>Satellite internet for boats</a></li>
+    <li><a href={url('/guides/portable/')}>Mini & portable setups</a></li>
+    <li><a href={url('/states/')}>Rural internet by state</a></li>
+    <li><a href={url('/faq/')}>FAQ</a></li>
+  </ul>
+</Base>

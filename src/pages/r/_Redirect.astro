@@ -1,0 +1,11 @@
+---
+import { REFERRAL_URL } from '../../lib/site';
+---
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" />
+<meta name="robots" content="noindex" />
+<meta http-equiv="refresh" content={`0; url=${REFERRAL_URL}`} />
+<link rel="canonical" href={REFERRAL_URL} />
+<title>Redirecting…</title>
+<script is:inline define:vars={{ u: REFERRAL_URL }}>location.replace(u);</script>
+</head><body><p>Redirecting to <a href={REFERRAL_URL}>the referral link</a>…</p></body></html>

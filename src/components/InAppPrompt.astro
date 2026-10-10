@@ -1,0 +1,12 @@
+<div id="inapp" class="inapp" hidden role="alert">
+  <strong>Open this page in your browser.</strong> You're in an in-app browser, where the referral may not be credited.
+  Tap the ••• / share menu and choose “Open in browser” (Safari or Chrome), then order in that tab.
+  <button type="button" id="inapp-x" aria-label="Dismiss">×</button>
+</div>
+<script>
+  const ua = navigator.userAgent || '';
+  if (/FBAN|FBAV|FB_IAB|Instagram|Twitter|TwitterAndroid|musical_ly|TikTok|Bytedance|YouTube|com\.google\.ios\.youtube|Line\/|Snapchat|LinkedInApp|; wv\)/i.test(ua)) {
+    const el = document.getElementById('inapp')!; el.hidden = false;
+    document.getElementById('inapp-x')!.addEventListener('click', () => (el.hidden = true));
+  }
+</script>

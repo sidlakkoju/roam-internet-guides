@@ -1,0 +1,12 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ReferralBox from '../../components/ReferralBox.astro';
+import { url } from '../../lib/site';
+const states = (await getCollection('states')).sort((a, b) => a.data.state.localeCompare(b.data.state));
+---
+<Base title="Rural Internet by State: Satellite, Fixed Wireless & DSL Options" description="State-by-state guides to rural internet options, including satellite internet, with coverage notes and setup tips.">
+  <h1>Rural internet by state</h1>
+  <ReferralBox />
+  <ul>{states.map((s) => <li><a href={url(`/states/${s.slug}/`)}>{s.data.state}</a> — {s.data.description}</li>)}</ul>
+</Base>
