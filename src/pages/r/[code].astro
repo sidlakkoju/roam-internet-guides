@@ -1,0 +1,8 @@
+---
+import R from './_Redirect.astro';
+import links from '../../data/links.json';
+export function getStaticPaths() {
+  return Object.keys(links).map((code) => ({ params: { code } }));
+}
+---
+<R channel={Astro.params.code} />
