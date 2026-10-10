@@ -4,10 +4,11 @@ import { REFERRAL_URL } from '../lib/site';
 const qr = await QRCode.toString(REFERRAL_URL, { type: 'svg', margin: 1, width: 140 });
 ---
 <aside class="ref" aria-labelledby="ref-h">
-  <h2 id="ref-h">Referral link ($100 off)</h2>
+  <h2 id="ref-h"><span class="hv-a">Referral link ($100 off)</span><span class="hv-b">Get $100 off your kit</span></h2>
+  <p class="tag">Referral link</p>
   <p>This is a <strong>referral link</strong>. If you order through it, you and the site owner each get a $100 credit after you keep service for about two billing cycles (~60 days).</p>
   <div class="ref-row">
-    <a class="btn" href={REFERRAL_URL} rel="nofollow sponsored">Open referral link</a>
+    <a class="btn" data-ref-open href={REFERRAL_URL} rel="nofollow sponsored">Open referral link</a>
     <button class="btn alt" type="button" data-copy={REFERRAL_URL}>Copy link</button>
     <span class="copied" hidden>Copied!</span>
   </div>
@@ -22,6 +23,14 @@ const qr = await QRCode.toString(REFERRAL_URL, { type: 'svg', margin: 1, width: 
   </ul>
 </aside>
 <script>
+  function track(kind: string) {
+    const v = document.documentElement.getAttribute('data-v') || 'A';
+    const page = location.pathname.replace(/^\/|\/$/g, '') || 'home';
+    const name = `${kind}/${page}/${v}`;
+    (window as any).goatcounter?.count?.({ path: name, title: name, event: true });
+  }
+  document.querySelectorAll('[data-ref-open]').forEach((a) => a.addEventListener('click', () => track('ref-open')));
+  document.querySelectorAll('[data-copy]').forEach((b) => b.addEventListener('click', () => track('ref-copy')));
   document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
     try { await navigator.clipboard.writeText(b.dataset.copy!); } catch { prompt('Copy this link:', b.dataset.copy!); return; }
     const s = b.parentElement!.querySelector<HTMLElement>('.copied'); if (s) { s.hidden = false; setTimeout(() => (s.hidden = true), 2000); }
