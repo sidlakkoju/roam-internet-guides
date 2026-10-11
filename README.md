@@ -5,6 +5,8 @@ Static Astro site for https://roaminternetguides.com.
 - Content: `src/content/guides/*.md` and `src/content/states/*.md` (bump `updated:` on monthly refreshes).
 - Build & publish: `./deploy.sh` (builds and force-pushes `dist/` to `gh-pages`).
 
+After publishing, deploy submits the built sitemap page URLs to IndexNow using `scripts/indexnow.sh` (requires bash, curl, and python3).
+
 ## Adding a tracking link
 
 Every key in `src/data/links.json` becomes a redirect page `/r/<code>/` that fires the GoatCounter event `redir/<code>` and then sends the visitor to the referral URL.
