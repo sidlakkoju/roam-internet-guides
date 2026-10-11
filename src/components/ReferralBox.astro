@@ -77,7 +77,9 @@ const contextual = ctxHead[ctx.kind] ?? ctxHead.default;
     const box = document.querySelector<HTMLElement>('aside.ref');
     if (box && v === 'twice') {
       const h2 = Array.from(document.querySelectorAll('main h2')).filter((h) => !box.contains(h))[1];
-      if (h2) h2.before(box.cloneNode(true));
+      const clone = box.cloneNode(true);
+      if (h2) h2.before(clone);
+      else document.querySelector('main')?.appendChild(clone);
     }
     if (v === 'sticky') {
       const bar = document.createElement('a');

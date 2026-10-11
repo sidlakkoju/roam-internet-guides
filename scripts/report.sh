@@ -42,13 +42,13 @@ def main():
     match = re.search(r"^api_key:[ \t]*(\S+)[ \t]*$", credentials, re.MULTILINE)
     if not match:
         fail("missing api_key in /home/box/shared/goatcounter.txt")
-    # Send the secret through stdin, never through argv or a temporary file.
     key = match.group(1).replace("\\", "\\\\").replace('"', '\\"')
     config = f'header = "Authorization: Bearer {key}"\n'
     redirects = Counter()
     seen = set()
     while True:
-        params = {"start": dates[0], "end": dates[1], "limit": 100}
+        params = {"start": dates[0] + "T00:00:00Z",
+                  "end": dates[1] + "T23:59:59Z", "limit": 100}
         if seen:
             params["exclude_paths"] = ",".join(map(str, sorted(seen)))
         url = "https://roaminternet.goatcounter.com/api/v0/stats/hits?" + urlencode(params)
@@ -59,7 +59,6 @@ def main():
             input=config, text=True, capture_output=True,
         )
         if result.returncode:
-            # Do not echo curl output or API errors: they could contain credentials.
             fail(f"GoatCounter request failed (curl exit {result.returncode})")
         try:
             data = json.loads(result.stdout)
@@ -91,17 +90,17 @@ def main():
             break
         if len(seen) == previous_size:
             fail("pagination made no progress")
-        time.sleep(0.3)  # Stay below GoatCounter's four requests/second limit.
+        time.sleep(0.3)
 
-    def ctr(clicks, views):
-        return f"{clicks / views:.2%}" if views else "N/A"
+    def ctr(events, visitors):
+        return f"{events / visitors:.2%}" if visitors else "N/A"
 
     def row(variant, enabled, weight, values):
-        views, opened, copied = values
-        return [variant, enabled, str(weight), str(views), str(opened), str(copied),
-                ctr(opened, views), ctr(opened + copied, views)]
+        visitors, opened, copied = values
+        return [variant, enabled, str(weight), str(visitors), str(opened), str(copied),
+                ctr(opened, visitors), ctr(opened + copied, visitors)]
 
-    rows = [["variant", "enabled", "weight", "pageviews", "ref-open", "ref-copy",
+    rows = [["variant", "enabled", "weight", "visitors", "ref-open", "ref-copy",
              "open CTR", "any-click CTR"]]
     ordered = sorted(variants, key=lambda v: (
         -(counts[v["id"]][1] / counts[v["id"]][0]) if counts[v["id"]][0] else float("inf"),
@@ -116,8 +115,10 @@ def main():
     print(f"Referral box variants: {dates[0]} to {dates[1]} (open CTR descending)")
     for r in rows:
         print("  ".join(value.ljust(width) for value, width in zip(r, widths)))
-    print("\nN/A = zero pageviews. TOTAL includes only IDs in variants.json.")
-    print("Any-click CTR counts open + copy events, not distinct visitors.")
+    print("\nN/A = zero visitors. TOTAL includes only IDs in variants.json.")
+    print("Visitors = unique first visits per path, summed across pages.")
+    print("CTRs = events per visitor; event counts are unique first visits per event path.")
+    print("Repeat clicks in a session are excluded; open + copy counts a visitor twice.")
     print("\nRedirect events:")
     for path, count in sorted(redirects.items()):
         print(f"{path}  {count}")
