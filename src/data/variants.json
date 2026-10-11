@@ -1,0 +1,14 @@
+[
+  { "id": "plain",      "weight": 1, "enabled": true },
+  { "id": "money-back", "weight": 1, "enabled": true },
+  { "id": "both",       "weight": 1, "enabled": true },
+  { "id": "no-catch",   "weight": 1, "enabled": true },
+  { "id": "steps",      "weight": 1, "enabled": true },
+  { "id": "return",     "weight": 1, "enabled": true },
+  { "id": "speedtest",  "weight": 1, "enabled": false },
+  { "id": "personal",   "weight": 1, "enabled": true },
+  { "id": "contextual", "weight": 1, "enabled": true },
+  { "id": "twice",      "weight": 1, "enabled": true },
+  { "id": "sticky",     "weight": 1, "enabled": true },
+  { "id": "minimal",    "weight": 1, "enabled": true }
+]

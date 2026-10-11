@@ -1,1 +1,15 @@
-{ "site": "Website", "yt": "YouTube", "x": "X profile" }
+{
+  "site": "Website",
+  "yt": "YouTube",
+  "x": "X profile",
+  "x-pin": "Pinned post on X",
+  "x-reply": "Approved X replies to code requests",
+  "reddit-reply": "Reddit replies to code requests",
+  "text-family": "Opt-in texts to family",
+  "text-friends": "Opt-in texts to friends",
+  "whatsapp": "WhatsApp groups",
+  "linkedin": "LinkedIn post",
+  "ig-bio": "Instagram link in bio",
+  "yt-desc": "YouTube video description",
+  "yt-short": "YouTube Shorts"
+}
