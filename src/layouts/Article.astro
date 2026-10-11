@@ -2,11 +2,13 @@
 import Base from './Base.astro';
 import ReferralBox from '../components/ReferralBox.astro';
 const { data } = Astro.props;
+const seg = Astro.url.pathname.split('/').filter(Boolean);
+const ctx = data.state ? { kind: 'state', name: data.state } : { kind: seg[seg.length - 1] ?? 'default' };
 ---
 <Base title={data.title} description={data.description} faq={data.faq}>
   <h1>{data.heading}</h1>
   <p style="color:var(--mut);font-size:14px">Updated {data.updated}</p>
-  <ReferralBox />
+  <ReferralBox ctx={ctx} />
   <slot />
   {data.faq.length > 0 && <section><h2>FAQ</h2>{data.faq.map((f) => <><h3>{f.q}</h3><p>{f.a}</p></>)}</section>}
 </Base>

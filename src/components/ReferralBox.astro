@@ -1,39 +1,100 @@
 ---
 import QRCode from 'qrcode';
-import { REFERRAL_URL } from '../lib/site';
+import { REFERRAL_URL, url } from '../lib/site';
+interface Props { ctx?: { kind: string; name?: string } }
+const { ctx = { kind: 'default' } } = Astro.props;
 const qr = await QRCode.toString(REFERRAL_URL, { type: 'svg', margin: 1, width: 140 });
+const ctxHead: Record<string, string> = {
+  rv: 'Getting online in your RV? $100 back',
+  boat: 'Getting online on your boat? $100 back',
+  portable: 'Going portable? $100 back',
+  state: `Rural internet in ${ctx.name ?? 'your state'}? $100 back`,
+  default: 'Signing up for satellite internet? $100 back',
+};
+const contextual = ctxHead[ctx.kind] ?? ctxHead.default;
+// Each element with class "x" is shown only for the variant ids listed in data-only (see CSS in Base.astro).
 ---
-<aside class="ref" aria-labelledby="ref-h">
-  <h2 id="ref-h"><span class="hv-a">Referral link: $100 reward</span><span class="hv-b">Get $100 back when you sign up</span></h2>
-  <p class="hv-b note">Paid as credit or cash after about 60 days of active service.</p>
+<aside class="ref" aria-label="Referral link">
   <p class="tag">Referral link</p>
-  <p>This is a <strong>referral link</strong>. If you order through it, you and the site owner each get a $100 credit after you keep service for about two billing cycles (~60 days).</p>
+  <h2 class="ref-h">
+    <span class="x" data-only="plain">Referral link: $100 reward</span>
+    <span class="x" data-only="money-back">Get $100 back when you sign up</span>
+    <span class="x" data-only="both">You get $100, I get $100</span>
+    <span class="x" data-only="no-catch">Same price, plus $100 back</span>
+    <span class="x" data-only="steps">$100 back in three steps</span>
+    <span class="x" data-only="return">$100 back, and you can still return it</span>
+    <span class="x" data-only="speedtest">$100 back on the service I use at home</span>
+    <span class="x" data-only="personal">I use it daily. If it helps, here's my link</span>
+    <span class="x" data-only="contextual">{contextual}</span>
+    <span class="x" data-only="twice sticky">Get $100 back when you sign up</span>
+    <span class="x" data-only="minimal">$100 back with my referral link</span>
+  </h2>
+  <p class="note">$100 back for you: paid as credit or cash after about 60 days of active service.</p>
+  <p class="x sub" data-only="no-catch">You pay exactly what the official site charges. The referral doesn't change your price.</p>
+  <p class="x sub" data-only="return">The hardware can still be returned for a full refund within 30 days when bought directly on starlink.com (undamaged, per the official terms).</p>
+  <p class="x sub" data-only="personal">— Siddharth</p>
+  <p class="x sub" data-only="both">If you order through my link and keep service for about 60 days, we each get $100.</p>
+  <figure class="x speed" data-only="speedtest"><img src={url('/img/speedtest.png')} alt="Speed test result" width="320" height="180" loading="lazy" /><figcaption>My actual speeds at home</figcaption></figure>
+  <ol class="x steps" data-only="steps">
+    <li>Open the link in your phone's or computer's regular browser (not inside an app).</li>
+    <li>Order on starlink.com in that same tab.</li>
+    <li>Look for “Referral Code Applied” at checkout before paying.</li>
+  </ol>
   <div class="ref-row">
-    <a class="btn" data-ref-open href={REFERRAL_URL} rel="nofollow sponsored">Open referral link</a>
-    <button class="btn alt" type="button" data-copy={REFERRAL_URL}>Copy link</button>
+    <a class="btn" data-ref-open href={REFERRAL_URL} rel="nofollow sponsored">
+      <span class="x" data-only="plain steps return speedtest contextual twice sticky">Open link</span>
+      <span class="x" data-only="money-back no-catch">Get my $100 back</span>
+      <span class="x" data-only="both personal">Use my link</span>
+      <span class="x" data-only="minimal">Open referral link</span>
+    </a>
+    <button class="btn alt nm" type="button" data-copy={REFERRAL_URL}>Copy link</button>
     <span class="copied" hidden>Copied!</span>
   </div>
-  <code class="ref-url">{REFERRAL_URL}</code>
-  <details><summary>Show QR code (scan on your phone)</summary><div class="qr" set:html={qr} /></details>
-  <p class="disclosure"><strong>Disclosure:</strong> I work at SpaceX. Referrals earn me a reward and enter me in an internal SpaceX employee contest.</p>
-  <ul class="ref-rules">
+  <code class="ref-url nm">{REFERRAL_URL}</code>
+  <details class="nm"><summary>Show QR code (scan on your phone)</summary><div class="qr" set:html={qr} /></details>
+  <details class="x" data-only="minimal"><summary>How the referral works</summary>
+    <ul class="ref-rules"><li>Order on starlink.com in the same browser tab that opened the link.</li><li>Look for “Referral Code Applied” at checkout.</li><li>Store-bought kits (e.g. Home Depot) don't count.</li></ul>
+  </details>
+  <ul class="ref-rules nm">
     <li>Order on starlink.com <strong>in the same browser tab that opened the link</strong>.</li>
     <li>Look for <strong>“Referral Code Applied”</strong> at checkout before paying.</li>
     <li>Store-bought kits (e.g. Home Depot or other retailers) don’t count.</li>
-    <li>Reward: $100 each, credited after ~2 billing cycles of active service.</li>
+    <li>Reward: $100 each, after ~2 billing cycles (about 60 days) of active service.</li>
   </ul>
+  <p class="disclosure"><strong>Disclosure:</strong> I work at SpaceX. Referrals earn me a reward and enter me in an internal SpaceX employee contest.</p>
 </aside>
 <script>
-  function track(kind: string) {
-    const v = document.documentElement.getAttribute('data-v') || 'A';
-    const page = location.pathname.replace(/^\/|\/$/g, '') || 'home';
-    const name = `${kind}/${page}/${v}`;
-    (window as any).goatcounter?.count?.({ path: name, title: name, event: true });
+  const once = (window as any).__refInit; (window as any).__refInit = true;
+  if (!once) {
+    const track = (kind: string) => {
+      if ((window as any).__noTrack) return;
+      const v = document.documentElement.getAttribute('data-v') || 'none';
+      const page = location.pathname.replace(/^\/|\/$/g, '') || 'home';
+      const name = `${kind}/${page}/${v}`;
+      (window as any).goatcounter?.count?.({ path: name, title: name, event: true });
+    };
+    const v = document.documentElement.getAttribute('data-v');
+    const box = document.querySelector<HTMLElement>('aside.ref');
+    if (box && v === 'twice') {
+      const h2 = Array.from(document.querySelectorAll('main h2')).filter((h) => !box.contains(h))[1];
+      if (h2) h2.before(box.cloneNode(true));
+    }
+    if (v === 'sticky') {
+      const bar = document.createElement('a');
+      bar.className = 'sticky-bar'; bar.href = box?.querySelector<HTMLAnchorElement>('[data-ref-open]')?.href || '#';
+      bar.rel = 'nofollow sponsored'; bar.setAttribute('data-ref-open', '');
+      bar.textContent = '$100 back · Open link';
+      document.body.appendChild(bar);
+    }
+    document.addEventListener('click', async (e) => {
+      const t = e.target as HTMLElement;
+      if (t.closest('[data-ref-open]')) track('ref-open');
+      const c = t.closest<HTMLButtonElement>('[data-copy]');
+      if (c) {
+        track('ref-copy');
+        try { await navigator.clipboard.writeText(c.dataset.copy!); } catch { prompt('Copy this link:', c.dataset.copy!); return; }
+        const s = c.parentElement!.querySelector<HTMLElement>('.copied'); if (s) { s.hidden = false; setTimeout(() => (s.hidden = true), 2000); }
+      }
+    });
   }
-  document.querySelectorAll('[data-ref-open]').forEach((a) => a.addEventListener('click', () => track('ref-open')));
-  document.querySelectorAll('[data-copy]').forEach((b) => b.addEventListener('click', () => track('ref-copy')));
-  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(b.dataset.copy!); } catch { prompt('Copy this link:', b.dataset.copy!); return; }
-    const s = b.parentElement!.querySelector<HTMLElement>('.copied'); if (s) { s.hidden = false; setTimeout(() => (s.hidden = true), 2000); }
-  }));
 </script>
