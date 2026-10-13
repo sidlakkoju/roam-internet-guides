@@ -17,10 +17,10 @@ const contextual = ctxHead[ctx.kind] ?? ctxHead.default;
 <aside class="ref" aria-label="Referral link">
   <p class="tag">Referral link</p>
   <h2 class="ref-h">
-    <span class="x" data-only="plain">Referral link: $100 reward</span>
-    <span class="x" data-only="money-back">Get $100 back when you sign up</span>
+    <span class="x" data-only="plain">$100 back with this referral link</span>
+    <span class="x" data-only="money-back">Get $100 back after about 60 days</span>
     <span class="x" data-only="both">You get $100, I get $100</span>
-    <span class="x" data-only="no-catch">Same price, plus $100 back</span>
+    <span class="x" data-only="no-catch">Same checkout price, plus $100 back later</span>
     <span class="x" data-only="steps">$100 back in three steps</span>
     <span class="x" data-only="return">$100 back, and you can still return it</span>
     <span class="x" data-only="speedtest">$100 back on the service I use at home</span>
@@ -29,7 +29,7 @@ const contextual = ctxHead[ctx.kind] ?? ctxHead.default;
     <span class="x" data-only="twice sticky">Get $100 back when you sign up</span>
     <span class="x" data-only="minimal">$100 back with my referral link</span>
   </h2>
-  <p class="note">$100 back for you: paid as credit or cash after about 60 days of active service.</p>
+  <p class="note">$100 back for you: paid as credit or cash after about 60 days of active service. Open the link, then finish checkout in that same browser tab.</p>
   <p class="x sub" data-only="no-catch">You pay exactly what the official site charges. The referral doesn't change your price.</p>
   <p class="x sub" data-only="return">The hardware can still be returned for a full refund within 30 days when bought directly on starlink.com (undamaged, per the official terms).</p>
   <p class="x sub" data-only="personal">— Siddharth</p>
@@ -85,7 +85,7 @@ const contextual = ctxHead[ctx.kind] ?? ctxHead.default;
       const bar = document.createElement('a');
       bar.className = 'sticky-bar'; bar.href = box?.querySelector<HTMLAnchorElement>('[data-ref-open]')?.href || '#';
       bar.rel = 'nofollow sponsored'; bar.setAttribute('data-ref-open', '');
-      bar.textContent = '$100 back · Open link';
+      bar.textContent = '$100 back · Open referral link';
       document.body.appendChild(bar);
     }
     document.addEventListener('click', async (e) => {
