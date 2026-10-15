@@ -1,5 +1,5 @@
 [
-  { "id": "plain",      "weight": 2, "enabled": true },
+  { "id": "plain",      "weight": 3, "enabled": true },
   { "id": "money-back", "weight": 1, "enabled": true },
   { "id": "both",       "weight": 1, "enabled": true },
   { "id": "no-catch",   "weight": 1, "enabled": true },
