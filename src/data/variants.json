@@ -5,7 +5,7 @@
   { "id": "no-catch",   "weight": 1, "enabled": true },
   { "id": "steps",      "weight": 1, "enabled": true },
   { "id": "return",     "weight": 1, "enabled": true },
-  { "id": "speedtest",  "weight": 1, "enabled": false },
+  { "id": "checkout",   "weight": 1, "enabled": true },
   { "id": "personal",   "weight": 1, "enabled": true },
   { "id": "contextual", "weight": 1, "enabled": true },
   { "id": "twice",      "weight": 1, "enabled": true },

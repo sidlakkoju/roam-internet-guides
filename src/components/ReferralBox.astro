@@ -17,24 +17,24 @@ const contextual = ctxHead[ctx.kind] ?? ctxHead.default;
 <aside class="ref" aria-label="Referral link">
   <p class="tag">Referral link</p>
   <h2 class="ref-h">
-    <span class="x" data-only="plain">Use this link — get $100 back</span>
+    <span class="x" data-only="plain">Get $100 back — open this referral link</span>
     <span class="x" data-only="money-back">Get $100 back after ~60 days of service</span>
-    <span class="x" data-only="both">You get $100, I get $100</span>
+    <span class="x" data-only="both">You get $100. I get $100.</span>
     <span class="x" data-only="no-catch">Same checkout price, plus $100 back later</span>
     <span class="x" data-only="steps">$100 back in three steps</span>
     <span class="x" data-only="return">$100 back, and you can still return it</span>
-    <span class="x" data-only="speedtest">$100 back on the service I use at home</span>
+    <span class="x" data-only="checkout">Confirm “Referral Code Applied” — then $100 back</span>
     <span class="x" data-only="personal">I use it daily. If it helps, here's my link</span>
     <span class="x" data-only="contextual">{contextual}</span>
-    <span class="x" data-only="twice sticky">Get $100 back after you sign up</span>
+    <span class="x" data-only="twice sticky">Sign up with this link — $100 back later</span>
     <span class="x" data-only="minimal">$100 back with my referral link</span>
   </h2>
-  <p class="note">$100 back for you as credit or cash after about 60 days of active service. Open the link, then finish checkout in that same browser tab — look for “Referral Code Applied” before you pay.</p>
+  <p class="note">You get $100 back as credit or cash after about 60 days of active service. Open the link, stay in that browser tab through checkout, and confirm “Referral Code Applied” before you pay.</p>
   <p class="x sub" data-only="no-catch">You pay exactly what the official site charges. The referral doesn't change your price.</p>
   <p class="x sub" data-only="return">The hardware can still be returned for a full refund within 30 days when bought directly on starlink.com (undamaged, per the official terms).</p>
   <p class="x sub" data-only="personal">— Siddharth</p>
   <p class="x sub" data-only="both">If you order through my link and keep service for about 60 days, we each get $100.</p>
-  <figure class="x speed" data-only="speedtest"><img src={url('/img/speedtest.png')} alt="Speed test result" width="320" height="180" loading="lazy" /><figcaption>My actual speeds at home</figcaption></figure>
+  <p class="x sub" data-only="checkout">Stay in the same browser tab from open through pay. If you don’t see “Referral Code Applied,” go back and open the link again before checkout.</p>
   <ol class="x steps" data-only="steps">
     <li>Open the link in your phone's or computer's regular browser (not inside an app).</li>
     <li>Order on starlink.com in that same tab.</li>
@@ -42,7 +42,7 @@ const contextual = ctxHead[ctx.kind] ?? ctxHead.default;
   </ol>
   <div class="ref-row">
     <a class="btn" data-ref-open href={REFERRAL_URL} rel="nofollow sponsored">
-      <span class="x" data-only="plain steps return speedtest contextual twice sticky">Open link</span>
+      <span class="x" data-only="plain steps return checkout contextual twice sticky">Open link</span>
       <span class="x" data-only="money-back no-catch">Get my $100 back</span>
       <span class="x" data-only="both personal">Use my link</span>
       <span class="x" data-only="minimal">Open referral link</span>
@@ -85,7 +85,7 @@ const contextual = ctxHead[ctx.kind] ?? ctxHead.default;
       const bar = document.createElement('a');
       bar.className = 'sticky-bar'; bar.href = box?.querySelector<HTMLAnchorElement>('[data-ref-open]')?.href || '#';
       bar.rel = 'nofollow sponsored'; bar.setAttribute('data-ref-open', '');
-      bar.textContent = 'Get $100 back · Open link';
+      bar.textContent = 'Open link · $100 back after ~60 days';
       document.body.appendChild(bar);
     }
     document.addEventListener('click', async (e) => {
