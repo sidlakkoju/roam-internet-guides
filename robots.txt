@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /r/
+Allow: /
+Sitemap: https://roaminternetguides.com/sitemap-index.xml
